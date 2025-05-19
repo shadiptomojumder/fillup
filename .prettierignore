@@ -1,0 +1,60 @@
+# Ignore dependencies and lock files
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Ignore build and output folders
+.next/
+out/
+dist/
+
+# Ignore environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Ignore TypeScript build files
+*.d.ts
+
+# Ignore Next.js cache and logs
+.next/cache/
+.next/static/
+.next/server/
+
+# Ignore public assets that should not be formatted
+public/**/*.png
+public/**/*.jpg
+public/**/*.jpeg
+public/**/*.gif
+public/**/*.svg
+public/**/*.ico
+
+# Ignore custom ESLint and Prettier config files (if applicable)
+.eslintcache
+.prettierignore
+.prettiercache
+
+# Ignore test coverage reports
+coverage/
+jest/
+*.log
+
+# Ignore storybook files (if using Storybook)
+.storybook/
+**/*.stories.tsx
+**/*.stories.js
+
+# Ignore Prisma migrations (if using Prisma)
+prisma/migrations/
+
+# Ignore Docker-related files (if using Docker)
+docker-compose.yml
+Dockerfile
+
+# Ignore VSCode and other editor settings
+.vscode/
+.idea/
+*.iml
