@@ -9,7 +9,7 @@ const Header = () => {
                 <section className="flex justify-between items-center">
                     <section className="flex items-center gap-0.5">
                         <Menu size={28} className="sm:hidden" />
-                        <Link className="flex items-center justify-center" href="#">
+                        <Link href="/" className="flex items-center justify-center">
                             <span className="text-2xl font-bold font-montserrat capitalize italic">FillUP</span>
                         </Link>
                     </section>

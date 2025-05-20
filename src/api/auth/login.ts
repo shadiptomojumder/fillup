@@ -1,11 +1,12 @@
-import { APIResponse, LoginResponseData } from "@/interfaces/common.schemas";
+import { APIResponse } from "@/interfaces/common.schemas";
+import { IUser, LoginDataSchema } from "@/interfaces/user.schemas";
 import { AxiosError, AxiosResponse } from "axios";
 import { api } from "../api";
 
-interface LoginDataSchema {
-    email?: string;
-    phone?: string;
-    password: string;
+// Interface representing a login response object.
+export interface LoginResponseData {
+    user: IUser;
+    accessToken: string;
 }
 
 // Use APIResponse<User> to define the expected response
@@ -18,15 +19,16 @@ const login = async ({
         const response: AxiosResponse<APIResponse<LoginResponseData>> = await api.post<
             APIResponse<LoginResponseData>
         >(`/auth/login`, data);
-        console.log("The Login API Response is:", response);
+
+        // console.log("The Login API Response is:", response);
 
         return response.data;
     } catch (error) {
         console.log("The Login API Error is:", error);
 
-        if (error instanceof AxiosError && error.response) {
-            console.log("Server Error:", error.response.data);
-            throw error.response.data; // Throwing the actual API error response
+        if (error instanceof AxiosError) {
+            // Throw original AxiosError always to preserve details
+            throw error;
         }
 
         throw new Error("An unknown error occurred");

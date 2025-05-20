@@ -1,8 +1,8 @@
-import { User } from "@/interfaces/user.schemas";
+import { IUser, User } from "@/interfaces/user.schemas";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-    user: User | null;
+    user: IUser | null;
     accesstoken: string | null;
     isLoading: boolean; // Initially loading user data
 }
@@ -17,7 +17,7 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<{ user: User; accesstoken: string }>) => {
+        setUser: (state, action: PayloadAction<{ user: IUser; accesstoken: string }>) => {
             state.user = action.payload.user;
             state.accesstoken = action.payload.accesstoken;
             state.isLoading = false; // User data loaded successfully

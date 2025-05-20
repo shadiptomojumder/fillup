@@ -15,9 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AuthUser = () => {
     const { user, isLoading } = useSelector((state: RootState) => state.user);
-    const { items } = useSelector((state: RootState) => state.cart);
-    // console.log("Redux User is:", user);
-    // console.log("Redux isLoading is:", isLoading);
+
     const handleLogout = useLogout();
     const dispatch = useDispatch();
 

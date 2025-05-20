@@ -3,11 +3,13 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
 import cartReducer from "./slices/cartSlice";
+import profilereducer from "./slices/profileSlice"
 
 // Combine reducers (if you have more slices in the future)
 const rootReducer = combineReducers({
     user: userReducer,
     cart: cartReducer,
+    profile: profilereducer
 });
 
 // Configure persist settings

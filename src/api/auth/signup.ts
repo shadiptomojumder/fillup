@@ -1,12 +1,12 @@
 import { APIResponse } from "@/interfaces/common.schemas";
-import { SignupSchema, User } from "@/interfaces/user.schemas";
+import { IUser, SignupDataSchema } from "@/interfaces/user.schemas";
 import { AxiosError, AxiosResponse } from "axios";
 import { api } from "../api";
 
 // Use APIResponse<User> to define the expected response
-const signup = async ({ data }: { data: SignupSchema }): Promise<APIResponse<User>> => {
+const SignupApi = async ({ data }: { data: SignupDataSchema }): Promise<APIResponse<IUser>> => {
     try {
-        const response: AxiosResponse<APIResponse<User>> = await api.post<APIResponse<User>>(
+        const response: AxiosResponse<APIResponse<IUser>> = await api.post<APIResponse<IUser>>(
             `/auth/signup`,
             data,
         );
@@ -16,13 +16,13 @@ const signup = async ({ data }: { data: SignupSchema }): Promise<APIResponse<Use
     } catch (error) {
         console.log("The Signup API Error is:", error);
 
-        if (error instanceof AxiosError && error.response) {
-            console.log("Server Error:", error.response.data);
-            throw error.response.data; // Throwing the actual API error response
+        if (error instanceof AxiosError) {
+            // Throw original AxiosError always to preserve details
+            throw error;
         }
 
         throw new Error("An unknown error occurred");
     }
 };
 
-export default signup;
+export default SignupApi;
