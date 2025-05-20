@@ -13,16 +13,28 @@ const presentAddressSchema = z.object({
     postcode: z.string({ required_error: "Postcode is required" }),
 });
 
-const sscHscSchema = z.object({
-    exam: z.string({ required_error: "Exam is required" }),
-    roll: z.string({ required_error: "Roll is required" }),
-    group: z.string({ required_error: "Group is required" }),
-    group_other: z.string().optional().nullable(),
-    board: z.string({ required_error: "Board is required" }),
-    board_other: z.string().optional().nullable(),
-    result_type: z.string({ required_error: "Result type is required" }),
-    result: z.number({ required_error: "Result is required" }),
-    year: z.string({ required_error: "Year is required" }),
+const SSCSchema = z.object({
+    ssc_exam: z.string({ required_error: "Exam is required" }),
+    ssc_roll: z.string({ required_error: "Roll is required" }),
+    ssc_group: z.string({ required_error: "Group is required" }),
+    ssc_group_other: z.string().optional().nullable(),
+    ssc_board: z.string({ required_error: "Board is required" }),
+    ssc_board_other: z.string().optional().nullable(),
+    ssc_result_type: z.string({ required_error: "Result type is required" }),
+    ssc_result: z.number({ required_error: "Result is required" }),
+    ssc_year: z.string({ required_error: "Year is required" }),
+});
+
+const HSCSchema = z.object({
+    hsc_exam: z.string({ required_error: "Exam is required" }),
+    hsc_roll: z.string({ required_error: "Roll is required" }),
+    hsc_group: z.string({ required_error: "Group is required" }),
+    hsc_group_other: z.string().optional().nullable(),
+    hsc_board: z.string({ required_error: "Board is required" }),
+    hsc_board_other: z.string().optional().nullable(),
+    hsc_result_type: z.string({ required_error: "Result type is required" }),
+    hsc_result: z.number({ required_error: "Result is required" }),
+    hsc_year: z.string({ required_error: "Year is required" }),
 });
 
 export const createProfileSchema = z.object({
@@ -87,8 +99,8 @@ export const createProfileSchema = z.object({
     dep_status: z.string().optional(),
 
     present_address: presentAddressSchema,
-    ssc: sscHscSchema,
-    hsc: sscHscSchema,
+    ssc: SSCSchema,
+    hsc: HSCSchema,
 });
 
 export type CreateProfileSchema = z.infer<typeof createProfileSchema>;

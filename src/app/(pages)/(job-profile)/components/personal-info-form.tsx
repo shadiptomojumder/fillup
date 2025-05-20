@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
     CardContent,
@@ -308,7 +307,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="religion">
-                                Religion<span className="text-red-500">*</span>
+                                Religion <span className="text-red-500">*</span>
                             </Label>
                             <Controller
                                 control={control}
