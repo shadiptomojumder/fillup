@@ -42,6 +42,10 @@ const HSCSchema = z.object({
 });
 
 const GratuationSchema = z.object({
+    if_applicable_gra: z.coerce
+        .number({ required_error: "Result is required" })
+        .optional()
+        .nullable(),
     gra_exam: z.string({ required_error: "Exam is required" }),
     gra_institute: z.coerce.number({ required_error: "Roll is required" }),
     gra_institute_other: z.string().optional().nullable(),
@@ -122,7 +126,8 @@ export const createProfileSchema = z
         present_address: presentAddressSchema,
     })
     .merge(SSCSchema)
-    .merge(HSCSchema);
+    .merge(HSCSchema)
+    .merge(GratuationSchema);
 
 export type CreateProfileSchema = z.infer<typeof createProfileSchema>;
 
