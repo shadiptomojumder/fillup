@@ -6,7 +6,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { AddressForm } from "../../components/address-form";
-import { EducationForm } from "../../components/education-form";
+import { EducationPhase1Form } from "../../components/education-phase1-form";
+import { EducationPhase2Form } from "../../components/education-phase2-form";
 import { PersonalInformationForm } from "../../components/personal-info-form";
 import { ProgressSteps } from "../../components/progress-steps";
 
@@ -28,7 +29,8 @@ export default function ProfilePage() {
 
     const steps = [
         { id: "personal", title: "Personal Information" },
-        { id: "education", title: "Education" },
+        { id: "education-phase1", title: "Education Phase 1" },
+        { id: "education-phase2", title: "Education Phase 2" },
         { id: "address", title: "Address" },
     ];
 
@@ -82,9 +84,15 @@ export default function ProfilePage() {
                         <PersonalInformationForm onNext={nextStep} onCancel={handleCancel} />
                     )}
 
-                    {currentStep === 1 && <EducationForm onNext={nextStep} onPrevious={prevStep} />}
+                    {currentStep === 1 && (
+                        <EducationPhase1Form onNext={nextStep} onPrevious={prevStep} />
+                    )}
 
-                    {currentStep === 2 && <AddressForm onPrevious={prevStep} isSaving={isSaving} />}
+                    {currentStep === 2 && (
+                        <EducationPhase2Form onNext={nextStep} onPrevious={prevStep} />
+                    )}
+
+                    {currentStep === 3 && <AddressForm onPrevious={prevStep} isSaving={isSaving} />}
                 </Card>
             </div>
         </div>

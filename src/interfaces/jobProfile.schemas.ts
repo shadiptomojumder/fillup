@@ -15,93 +15,114 @@ const presentAddressSchema = z.object({
 
 const SSCSchema = z.object({
     ssc_exam: z.string({ required_error: "Exam is required" }),
-    ssc_roll: z.string({ required_error: "Roll is required" }),
+    ssc_roll: z.coerce.number({ required_error: "Roll is required" }),
     ssc_group: z.string({ required_error: "Group is required" }),
     ssc_group_other: z.string().optional().nullable(),
     ssc_board: z.string({ required_error: "Board is required" }),
     ssc_board_other: z.string().optional().nullable(),
     ssc_result_type: z.string({ required_error: "Result type is required" }),
-    ssc_result: z.number({ required_error: "Result is required" }),
-    ssc_year: z.string({ required_error: "Year is required" }),
+    ssc_result: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
+    ssc_year: z
+        .string({ required_error: "Passing year is required" })
+        .nonempty({ message: "Passing year is required." }),
 });
 
 const HSCSchema = z.object({
     hsc_exam: z.string({ required_error: "Exam is required" }),
-    hsc_roll: z.string({ required_error: "Roll is required" }),
+    hsc_roll: z.coerce.number({ required_error: "Roll is required" }),
     hsc_group: z.string({ required_error: "Group is required" }),
     hsc_group_other: z.string().optional().nullable(),
     hsc_board: z.string({ required_error: "Board is required" }),
     hsc_board_other: z.string().optional().nullable(),
     hsc_result_type: z.string({ required_error: "Result type is required" }),
-    hsc_result: z.number({ required_error: "Result is required" }),
-    hsc_year: z.string({ required_error: "Year is required" }),
+    hsc_result: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
+    hsc_year: z
+        .string({ required_error: "Passing year is required" })
+        .nonempty({ message: "Passing year is required." }),
 });
 
-export const createProfileSchema = z.object({
-    userId: z
-        .string({ required_error: "User ID is required" })
-        .min(1, { message: "User ID cannot be empty" }),
-    name: z
-        .string({ required_error: "Name is required" })
-        .nonempty({ message: "Name is required." })
-        .min(2, { message: "Name must be at least 2 characters long." }),
-    name_bn: z
-        .string({ required_error: "Bangla name is required" })
-        .nonempty({ message: "Bangla name is required." })
-        .min(2, { message: "Bangla name must be at least 2 characters long." }),
-    father: z
-        .string({ required_error: "Father's name is required" })
-        .nonempty({ message: "Father's name is required." })
-        .min(2, { message: "Father's name must be at least 2 characters long." }),
-    father_bn: z
-        .string({ required_error: "Father's Bangla name is required" })
-        .nonempty({ message: "Father's Bangla name is required." })
-        .min(2, { message: "Father's Bangla name must be at least 2 characters long." }),
-    mother: z
-        .string({ required_error: "Mother's name is required" })
-        .nonempty({ message: "Mother's name is required." })
-        .min(2, { message: "Mother's name must be at least 2 characters long." }),
-    mother_bn: z
-        .string({ required_error: "Mother's Bangla name is required" })
-        .nonempty({ message: "Mother's Bangla name name is required." })
-        .min(2, { message: "Mother's Bangla name name must be at least 2 characters long." }),
-    dob: z.coerce.date({ required_error: "Date of birth is required" }),
-    religion: z
-        .string({ required_error: "Religion is required" })
-        .nonempty({ message: "Religion is required" }),
-    gender: z
-        .string({ required_error: "Gender is required" })
-        .nonempty({ message: "Gender is required." }),
-
-    nid: z.string({ required_error: "NID is required" }),
-    nid_no: z
-        .string({ required_error: "NID number is required" })
-        .nonempty({ message: "NID number is required." })
-        .min(2, { message: "NID number must be at least 2 characters long." }),
-    breg: z.string().optional(), // Required if nid === "0", handle in service or with refine
-    passport: z.string().optional(),
-
-    email: z
-        .string({ required_error: "Email is required." })
-        .nonempty({ message: "Email is required." })
-        .email({ message: "Please provide a valid email address." }),
-    mobile: z
-        .string({ required_error: "Mobile is required" })
-        .regex(bdPhoneRegex, { message: "Mobile must be a valid Bangladeshi phone number" }),
-    confirm_mobile: z.string({ required_error: "Confirm mobile is required" }).regex(bdPhoneRegex, {
-        message: "Confirm mobile must be a valid Bangladeshi phone number",
-    }),
-
-    nationality: z.string({ required_error: "Nationality is required" }),
-
-    marital_status: z.string({ required_error: "Marital status is required" }),
-    quota: z.string({ required_error: "Quota is required" }),
-    dep_status: z.string().optional(),
-
-    present_address: presentAddressSchema,
-    ssc: SSCSchema,
-    hsc: HSCSchema,
+const GratuationSchema = z.object({
+    gra_exam: z.string({ required_error: "Exam is required" }),
+    gra_institute: z.coerce.number({ required_error: "Roll is required" }),
+    gra_institute_other: z.string().optional().nullable(),
+    gra_subject: z.string({ required_error: "Board is required" }),
+    gra_subject_other: z.string().optional().nullable(),
+    gra_result_type: z.string({ required_error: "Result type is required" }),
+    gra_result: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
+    gra_duration: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
+    gra_year: z
+        .string({ required_error: "Passing year is required" })
+        .nonempty({ message: "Passing year is required." }),
 });
+
+export const createProfileSchema = z
+    .object({
+        userId: z
+            .string({ required_error: "User ID is required" })
+            .min(1, { message: "User ID cannot be empty" }),
+        name: z
+            .string({ required_error: "Name is required" })
+            .nonempty({ message: "Name is required." })
+            .min(2, { message: "Name must be at least 2 characters long." }),
+        name_bn: z
+            .string({ required_error: "Bangla name is required" })
+            .nonempty({ message: "Bangla name is required." })
+            .min(2, { message: "Bangla name must be at least 2 characters long." }),
+        father: z
+            .string({ required_error: "Father's name is required" })
+            .nonempty({ message: "Father's name is required." })
+            .min(2, { message: "Father's name must be at least 2 characters long." }),
+        father_bn: z
+            .string({ required_error: "Father's Bangla name is required" })
+            .nonempty({ message: "Father's Bangla name is required." })
+            .min(2, { message: "Father's Bangla name must be at least 2 characters long." }),
+        mother: z
+            .string({ required_error: "Mother's name is required" })
+            .nonempty({ message: "Mother's name is required." })
+            .min(2, { message: "Mother's name must be at least 2 characters long." }),
+        mother_bn: z
+            .string({ required_error: "Mother's Bangla name is required" })
+            .nonempty({ message: "Mother's Bangla name name is required." })
+            .min(2, { message: "Mother's Bangla name name must be at least 2 characters long." }),
+        dob: z.coerce.date({ required_error: "Date of birth is required" }),
+        religion: z
+            .string({ required_error: "Religion is required" })
+            .nonempty({ message: "Religion is required" }),
+        gender: z
+            .string({ required_error: "Gender is required" })
+            .nonempty({ message: "Gender is required." }),
+
+        nid: z.string({ required_error: "NID is required" }),
+        nid_no: z
+            .string({ required_error: "NID number is required" })
+            .nonempty({ message: "NID number is required." })
+            .min(2, { message: "NID number must be at least 2 characters long." }),
+        breg: z.string().optional(), // Required if nid === "0", handle in service or with refine
+        passport: z.string().optional(),
+
+        email: z
+            .string({ required_error: "Email is required." })
+            .nonempty({ message: "Email is required." })
+            .email({ message: "Please provide a valid email address." }),
+        mobile: z
+            .string({ required_error: "Mobile is required" })
+            .regex(bdPhoneRegex, { message: "Mobile must be a valid Bangladeshi phone number" }),
+        confirm_mobile: z
+            .string({ required_error: "Confirm mobile is required" })
+            .regex(bdPhoneRegex, {
+                message: "Confirm mobile must be a valid Bangladeshi phone number",
+            }),
+
+        nationality: z.string({ required_error: "Nationality is required" }),
+
+        marital_status: z.string({ required_error: "Marital status is required" }),
+        quota: z.string({ required_error: "Quota is required" }),
+        dep_status: z.string().optional(),
+
+        present_address: presentAddressSchema,
+    })
+    .merge(SSCSchema)
+    .merge(HSCSchema);
 
 export type CreateProfileSchema = z.infer<typeof createProfileSchema>;
 
@@ -146,29 +167,25 @@ export interface IProfile {
         postcode: string;
     };
 
-    ssc: {
-        exam: string;
-        roll: string;
-        group: string;
-        group_other?: string;
-        board: string;
-        board_other?: string;
-        result_type: string;
-        result: number;
-        year: string;
-    };
+    ssc_exam: string;
+    ssc_roll: number;
+    ssc_group: string;
+    ssc_group_other?: string | null;
+    ssc_board: string;
+    ssc_board_other?: string | null;
+    ssc_result_type: string;
+    ssc_result?: number | null;
+    ssc_year: string;
 
-    hsc: {
-        exam: string;
-        roll: string;
-        group: string;
-        group_other?: string;
-        board: string;
-        board_other?: string;
-        result_type: string;
-        result: number;
-        year: string;
-    };
+    hsc_exam: string;
+    hsc_roll: number;
+    hsc_group: string;
+    hsc_group_other?: string | null;
+    hsc_board: string;
+    hsc_board_other?: string | null;
+    hsc_result_type: string;
+    hsc_result?: number | null;
+    hsc_year: string;
 
     createdAt?: Date;
     updatedAt?: Date;
