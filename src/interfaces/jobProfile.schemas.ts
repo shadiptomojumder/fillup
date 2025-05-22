@@ -41,23 +41,281 @@ const HSCSchema = z.object({
         .nonempty({ message: "Passing year is required." }),
 });
 
-const GratuationSchema = z.object({
-    if_applicable_gra: z.coerce
-        .number({ required_error: "Result is required" })
-        .optional()
-        .nullable(),
-    gra_exam: z.string({ required_error: "Exam is required" }),
-    gra_institute: z.coerce.number({ required_error: "Roll is required" }),
-    gra_institute_other: z.string().optional().nullable(),
-    gra_subject: z.string({ required_error: "Board is required" }),
-    gra_subject_other: z.string().optional().nullable(),
-    gra_result_type: z.string({ required_error: "Result type is required" }),
-    gra_result: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
-    gra_duration: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
-    gra_year: z
-        .string({ required_error: "Passing year is required" })
-        .nonempty({ message: "Passing year is required." }),
-});
+// const GratuationSchema = z.object({
+//     if_applicable_gra: z.coerce
+//         .number({ required_error: "Result is required" })
+//         .optional()
+//         .nullable(),
+//     gra_exam: z.string({ required_error: "Exam is required" }),
+//     gra_institute: z.coerce.string({ required_error: "Roll is required" }),
+//     gra_institute_other: z.string().optional().nullable(),
+//     gra_subject: z.string({ required_error: "Board is required" }),
+//     gra_subject_other: z.string().optional().nullable(),
+//     gra_result_type: z.string({ required_error: "Result type is required" }),
+//     gra_result: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
+//     gra_duration: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
+//     gra_year: z
+//         .string({ required_error: "Passing year is required" })
+//         .nonempty({ message: "Passing year is required." }),
+// });
+
+export const gratuationSchema = z
+    .object({
+        if_applicable_gra: z.coerce.number().optional().nullable(),
+
+        gra_exam: z.string().optional(),
+        gra_institute: z.string().optional(),
+        gra_subject: z.string().optional(),
+        gra_result_type: z.string().optional(),
+        gra_result: z.coerce.number().optional().nullable(),
+        gra_duration: z.coerce.string().optional().nullable(),
+        gra_year: z.string().optional().nullable(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.if_applicable_gra === 1) {
+            if (!data.gra_exam) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_exam"],
+                    message: "Exam is required",
+                });
+            }
+            if (!data.gra_institute) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_institute"],
+                    message: "Institute is required",
+                });
+            }
+            if (!data.gra_subject) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_subject"],
+                    message: "Subject is required",
+                });
+            }
+            if (!data.gra_result_type) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_result_type"],
+                    message: "Result type is required",
+                });
+            }
+            if (data.gra_result == null) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_result"],
+                    message: "Result is required",
+                });
+            }
+            if (!data.gra_duration || data.gra_duration.trim() === "") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_duration"],
+                    message: "Duration is required",
+                });
+            }
+            if (!data.gra_year) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_year"],
+                    message: "Passing year is required",
+                });
+            }
+        }
+    });
+
+export const mastersSchema = z
+    .object({
+        if_applicable_mas: z.coerce.number().optional().nullable(),
+        mas_exam: z.string().optional(),
+        mas_institute: z.string().optional(),
+        mas_subject: z.string().optional(),
+        mas_result_type: z.string().optional(),
+        mas_result: z.coerce.number().optional().nullable(),
+        mas_duration: z.coerce.string().optional().nullable(),
+        mas_year: z.string().optional().nullable(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.if_applicable_mas === 1) {
+            if (!data.mas_exam) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_exam"],
+                    message: "Exam is required",
+                });
+            }
+            if (!data.mas_institute) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_institute"],
+                    message: "Institute is required",
+                });
+            }
+            if (!data.mas_subject) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_subject"],
+                    message: "Subject is required",
+                });
+            }
+            if (!data.mas_result_type) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_result_type"],
+                    message: "Result type is required",
+                });
+            }
+            if (data.mas_result == null) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_result"],
+                    message: "Result is required",
+                });
+            }
+            if (!data.mas_duration || data.mas_duration.trim() === "") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_duration"],
+                    message: "Duration is required",
+                });
+            }
+            if (!data.mas_year) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_year"],
+                    message: "Passing year is required",
+                });
+            }
+        }
+    });
+
+export const educationPhase2Schema = z
+    .object({
+        if_applicable_gra: z.coerce.number().optional().nullable(),
+        gra_exam: z.string().optional(),
+        gra_institute: z.string().optional(),
+        gra_subject: z.string().optional(),
+        gra_result_type: z.string().optional(),
+        gra_result: z.coerce.number().optional().nullable(),
+        gra_duration: z.coerce.string().optional().nullable(),
+        gra_year: z.string().optional().nullable(),
+
+        if_applicable_mas: z.coerce.number().optional().nullable(),
+        mas_exam: z.string().optional(),
+        mas_institute: z.string().optional(),
+        mas_subject: z.string().optional(),
+        mas_result_type: z.string().optional(),
+        mas_result: z.coerce.number().optional().nullable(),
+        mas_duration: z.coerce.string().optional().nullable(),
+        mas_year: z.string().optional().nullable(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.if_applicable_gra === 1) {
+            if (!data.gra_exam) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_exam"],
+                    message: "Exam is required",
+                });
+            }
+            if (!data.gra_institute) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_institute"],
+                    message: "Institute is required",
+                });
+            }
+            if (!data.gra_subject) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_subject"],
+                    message: "Subject is required",
+                });
+            }
+            if (!data.gra_result_type) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_result_type"],
+                    message: "Result type is required",
+                });
+            }
+            if (data.gra_result == null) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_result"],
+                    message: "Result is required",
+                });
+            }
+            if (!data.gra_duration || data.gra_duration.trim() === "") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_duration"],
+                    message: "Duration is required",
+                });
+            }
+            if (!data.gra_year) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["gra_year"],
+                    message: "Passing year is required",
+                });
+            }
+        }
+    })
+    .superRefine((data, ctx) => {
+        if (data.if_applicable_mas === 1) {
+            if (!data.mas_exam) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_exam"],
+                    message: "Exam is required",
+                });
+            }
+            if (!data.mas_institute) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_institute"],
+                    message: "Institute is required",
+                });
+            }
+            if (!data.mas_subject) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_subject"],
+                    message: "Subject is required",
+                });
+            }
+            if (!data.mas_result_type) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_result_type"],
+                    message: "Result type is required",
+                });
+            }
+            if (data.mas_result == null) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_result"],
+                    message: "Result is required",
+                });
+            }
+            if (!data.mas_duration || data.mas_duration.trim() === "") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_duration"],
+                    message: "Duration is required",
+                });
+            }
+            if (!data.mas_year) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["mas_year"],
+                    message: "Passing year is required",
+                });
+            }
+        }
+    });
 
 export const createProfileSchema = z
     .object({
@@ -126,8 +384,7 @@ export const createProfileSchema = z
         present_address: presentAddressSchema,
     })
     .merge(SSCSchema)
-    .merge(HSCSchema)
-    .merge(GratuationSchema);
+    .merge(HSCSchema);
 
 export type CreateProfileSchema = z.infer<typeof createProfileSchema>;
 

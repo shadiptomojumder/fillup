@@ -373,22 +373,22 @@ const GraduationField = ({
 }) => {
     console.log("isBachelorApplicable is:", isBachelorApplicable);
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState("");
+    // const [selectedUniversity, setSelectedUniversity] = useState<{
+    //     value: string;
+    //     label: string;
+    // } | null>(null);
+
+    // // console.log("The selectedUniversity:", selectedUniversity);
 
     const selectedExam = useWatch({
         control,
         name: "gra_exam",
     });
 
-    const selectedGroup = useWatch({
-        control,
-        name: "ssc_group",
-    });
-
     // Watch the SSC result type select value
     const selectedSscResultType = useWatch({
         control,
-        name: "ssc_result_type",
+        name: "gra_result_type",
     });
     // Determine if GPA input should show (for value "4" or "5")
     const showGpaInput = selectedSscResultType === "4" || selectedSscResultType === "5";
@@ -464,56 +464,75 @@ const GraduationField = ({
                 </div>
             </div>
 
-            {/* GRADUATION ROLL NUMBER */}
-            <div className="flex flex-col">
-                <Label htmlFor="gra_institute">
+            {/* GRADUATION University */}
+            <div className="flex flex-col gap-1">
+                <Label htmlFor="gra_institute" className="mt-1.5">
                     University/Inst. <span className="text-red-500">*</span>
                 </Label>
-                <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={open}
-                            className="w-full justify-between">
-                            {value
-                                ? universities.find((framework) => framework.label === value)?.label
-                                : "Select framework..."}
-                            <ChevronsUpDown className="opacity-50" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[400px] p-0">
-                        <Command>
-                            <CommandInput placeholder="Search framework..." className="h-9" />
-                            <CommandList>
-                                <CommandEmpty>No framework found.</CommandEmpty>
-                                <CommandGroup>
-                                    {universities.map((framework) => (
-                                        <CommandItem
-                                            key={framework.value}
-                                            value={framework.label}
-                                            onSelect={(currentValue) => {
-                                                setValue(
-                                                    currentValue === value ? "" : currentValue,
-                                                );
-                                                setOpen(false);
-                                            }}>
-                                            {framework.label}
-                                            <Check
-                                                className={cn(
-                                                    "ml-auto",
-                                                    value === framework.label
-                                                        ? "opacity-100"
-                                                        : "opacity-0",
-                                                )}
-                                            />
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
+
+                <Controller
+                    control={control}
+                    name="gra_institute"
+                    rules={{ required: "University is required" }}
+                    render={({ field }) => {
+                        const selectedOption = universities.find((u) => u.value === field.value);
+
+                        return (
+                            <Popover open={open} onOpenChange={setOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        disabled={!isBachelorApplicable}
+                                        aria-expanded={open}
+                                        className="h-11 w-full justify-between text-muted-foreground hover:text-muted-foreground font-normal border-none bg-gray-100 hover:bg-gray-100">
+                                        {selectedOption
+                                            ? selectedOption.label
+                                            : "Select university..."}
+                                        <ChevronsUpDown className="opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-[400px] p-0">
+                                    <Command>
+                                        <CommandInput
+                                            placeholder="Select university..."
+                                            className="h-9"
+                                        />
+                                        <CommandList>
+                                            <CommandEmpty>No university found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {universities.map((institute) => (
+                                                    <CommandItem
+                                                        key={institute.value}
+                                                        value={institute.label}
+                                                        onSelect={() => {
+                                                            field.onChange(institute.value); // Only store value
+                                                            setOpen(false);
+                                                        }}
+                                                        className={cn(
+                                                            "cursor-pointer",
+                                                            field.value === institute.value &&
+                                                                "bg-gray-800 text-white",
+                                                        )}>
+                                                        {institute.label}
+                                                        <Check
+                                                            className={cn(
+                                                                "ml-auto",
+                                                                field.value === institute.value
+                                                                    ? "opacity-100"
+                                                                    : "opacity-0",
+                                                            )}
+                                                        />
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        );
+                    }}
+                />
                 <div className="h-5">
                     {errors.gra_institute && (
                         <span className="text-xs text-red-500">{errors.gra_institute.message}</span>
@@ -521,36 +540,35 @@ const GraduationField = ({
                 </div>
             </div>
 
-            {/* SSC Result Type */}
+            {/* GRADUATION Result Type */}
             <section className="flex justify-between gap-5">
                 <div className="w-full">
-                    <Label htmlFor="ssc_result_type">
-                        Result Type <span className="text-red-600">*</span>
+                    <Label htmlFor="gra_result_type">
+                        Result <span className="text-red-600">*</span>
                     </Label>
                     <Controller
                         control={control}
-                        name="ssc_result_type"
+                        name="gra_result_type"
                         rules={{ required: "Result type is required" }}
                         render={({ field }) => (
-                            <Select onValueChange={field.onChange} value={field.value ?? ""}>
-                                <SelectTrigger id="ssc_result_type" className="h-11 bg-gray-100">
+                            <Select disabled={!isBachelorApplicable} onValueChange={field.onChange} value={field.value ?? ""}>
+                                <SelectTrigger id="gra_result_type" className="h-11 bg-gray-100">
                                     <SelectValue placeholder="Select result type" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-gray-100">
-                                    <SelectItem value="1">1st Division</SelectItem>
-                                    <SelectItem value="2">2nd Division</SelectItem>
-                                    <SelectItem value="3">3rd Division</SelectItem>
-                                    <SelectItem value="4">GPA (out of 4)</SelectItem>
-                                    <SelectItem value="5">GPA (out of 5)</SelectItem>
+                                    <SelectItem value="1">1st Class</SelectItem>
+                                    <SelectItem value="2">2nd Class</SelectItem>
+                                    <SelectItem value="4">CGPA (out of 4)</SelectItem>
+                                    <SelectItem value="5">CGPA (out of 5)</SelectItem>
                                     <SelectItem value="6">Passed</SelectItem>
                                 </SelectContent>
                             </Select>
                         )}
                     />
                     <div className="h-5">
-                        {errors.ssc_result_type && (
+                        {errors.gra_result_type && (
                             <span className="text-xs text-red-500">
-                                {errors.ssc_result_type.message}
+                                {errors.gra_result_type.message}
                             </span>
                         )}
                     </div>
@@ -559,15 +577,15 @@ const GraduationField = ({
                 {/* Conditionally show GPA input */}
                 {showGpaInput && (
                     <div className="w-[60%] sm:w-full">
-                        <Label htmlFor="ssc_result">
+                        <Label htmlFor="gra_result">
                             Enter GPA <span className="text-red-600">*</span>
                         </Label>
                         <Input
-                            {...register("ssc_result", {
+                            {...register("gra_result", {
                                 required: "GPA is required",
                                 validate: (value: string) => {
                                     // Only validate if GPA type is selected
-                                    if (["1", "2", "3", "6"].includes(watch("ssc_result_type"))) {
+                                    if (["1", "2", "6"].includes(watch("gra_result_type"))) {
                                         if (!value) return "GPA is required";
 
                                         const num = parseFloat(value);
@@ -579,15 +597,15 @@ const GraduationField = ({
                                     return true;
                                 },
                             })}
-                            id="ssc_result"
+                            id="gra_result"
                             type="text"
                             className="h-11 bg-gray-100"
                             placeholder="Example '4.25','3.25'"
                         />
                         <div className="h-5">
-                            {errors.ssc_result && (
+                            {errors.gra_result && (
                                 <span className="text-xs text-red-500">
-                                    {errors.ssc_result.message}
+                                    {errors.gra_result.message}
                                 </span>
                             )}
                         </div>
@@ -595,54 +613,50 @@ const GraduationField = ({
                 )}
             </section>
 
-            {/* GROUP/SUBJECT */}
-            <div>
-                <Label htmlFor="ssc_group">
-                    Group/Subject <span className="text-red-600">*</span>
+            {/* GRADUATION YEAR */}
+            <div className="">
+                <Label htmlFor="gra_year">
+                    Passing year <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                    {...register("gra_year")}
+                    id="gra_year"
+                    type="number"
+                    disabled={!isBachelorApplicable}
+                    className="h-11 bg-gray-100"
+                    placeholder="Enter year like '2000', '1998'"
+                />
+                <div className="h-5">
+                    {errors.gra_year && (
+                        <span className="text-xs text-red-500">{errors.gra_year.message}</span>
+                    )}
+                </div>
+            </div>
+
+            {/* GRADUATION DURATION */}
+            <div className="">
+                <Label htmlFor="gra_duration">
+                    Course Duration <span className="text-red-600">*</span>
                 </Label>
                 <Controller
                     control={control}
-                    name="ssc_group"
+                    name="gra_duration"
                     render={({ field }) => (
-                        <Select
-                            onValueChange={field.onChange}
-                            value={field.value ?? ""}
-                            disabled={!selectedExam}>
-                            <SelectTrigger className="h-11 bg-gray-100">
-                                <SelectValue placeholder="Select group/subject" />
+                        <Select disabled={!isBachelorApplicable} onValueChange={field.onChange} value={field.value ?? ""}>
+                            <SelectTrigger id="gra_duration" className="h-11 bg-gray-100">
+                                <SelectValue placeholder="Select Course Duration" />
                             </SelectTrigger>
                             <SelectContent className="bg-gray-100">
-                                {(groupOptionsMap[selectedExam ?? ""] ?? []).map((option) => (
-                                    <SelectItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </SelectItem>
-                                ))}
+                                <SelectItem value="03">03 Years</SelectItem>
+                                <SelectItem value="04">04 Years</SelectItem>
+                                <SelectItem value="05">05 Years</SelectItem>
                             </SelectContent>
                         </Select>
                     )}
                 />
                 <div className="h-5">
-                    {errors.ssc_group && (
-                        <span className="text-xs text-red-500">{errors.ssc_group.message}</span>
-                    )}
-                </div>
-            </div>
-
-            {/* SSC YEAR */}
-            <div className="">
-                <Label htmlFor="ssc_year">
-                    Passing year <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                    {...register("ssc_year")}
-                    id="ssc_year"
-                    type="number"
-                    className="h-11 bg-gray-100"
-                    placeholder="Enter year like '2000', '1998'"
-                />
-                <div className="h-5">
-                    {errors.ssc_year && (
-                        <span className="text-xs text-red-500">{errors.ssc_year.message}</span>
+                    {errors.gra_duration && (
+                        <span className="text-xs text-red-500">{errors.gra_duration.message}</span>
                     )}
                 </div>
             </div>

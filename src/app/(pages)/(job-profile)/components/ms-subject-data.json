@@ -1,0 +1,765 @@
+{
+    "1": [
+        {
+            "value": "101",
+            "label": "Accounting"
+        },
+        {
+            "value": "268",
+            "label": "Accounting and Information Systems"
+        },
+        {
+            "value": "328",
+            "label": "Aeronautical Engineering"
+        },
+        {
+            "value": "226",
+            "label": "Agr.Co-operative & Marketing"
+        },
+        {
+            "value": "201",
+            "label": "Agriculture"
+        },
+        {
+            "value": "202",
+            "label": "Agriculture Chemistry"
+        },
+        {
+            "value": "203",
+            "label": "Agriculture Co-operatives"
+        },
+        {
+            "value": "204",
+            "label": "Agriculture Economics"
+        },
+        {
+            "value": "205",
+            "label": "Agriculture Engineering"
+        },
+        {
+            "value": "221",
+            "label": "Agriculture Extension"
+        },
+        {
+            "value": "206",
+            "label": "Agriculture Finance"
+        },
+        {
+            "value": "207",
+            "label": "Agriculture Marketing"
+        },
+        {
+            "value": "208",
+            "label": "Agriculture Science"
+        },
+        {
+            "value": "209",
+            "label": "Agriculture Soil Science"
+        },
+        {
+            "value": "225",
+            "label": "Agriculture Statistics"
+        },
+        {
+            "value": "220",
+            "label": "Agriculture Water Management"
+        },
+        {
+            "value": "223",
+            "label": "Agro Forestry"
+        },
+        {
+            "value": "214",
+            "label": "Agronnomy"
+        },
+        {
+            "value": "211",
+            "label": "Agronomy & Aquaculture"
+        },
+        {
+            "value": "212",
+            "label": "Agronomy & Aquaculture Extension"
+        },
+        {
+            "value": "169",
+            "label": "Akaid"
+        },
+        {
+            "value": "215",
+            "label": "Anatomology"
+        },
+        {
+            "value": "213",
+            "label": "Anatomy & Histology"
+        },
+        {
+            "value": "216",
+            "label": "Animal Breeding & Genetic"
+        },
+        {
+            "value": "210",
+            "label": "Animal Husbandry"
+        },
+        {
+            "value": "218",
+            "label": "Animal Nutrition"
+        },
+        {
+            "value": "217",
+            "label": "Animal Science"
+        },
+        {
+            "value": "102",
+            "label": "Anthropology"
+        },
+        {
+            "value": "103",
+            "label": "Applied Chemistry"
+        },
+        {
+            "value": "105",
+            "label": "Applied Mathematics"
+        },
+        {
+            "value": "104",
+            "label": "Applied Physics"
+        },
+        {
+            "value": "106",
+            "label": "Arabic"
+        },
+        {
+            "value": "107",
+            "label": "Archaeology"
+        },
+        {
+            "value": "301",
+            "label": "Architecture"
+        },
+        {
+            "value": "108",
+            "label": "Bangla"
+        },
+        {
+            "value": "109",
+            "label": "Banking"
+        },
+        {
+            "value": "267",
+            "label": "Banking and Insurance"
+        },
+        {
+            "value": "227",
+            "label": "Bio-Technology"
+        },
+        {
+            "value": "110",
+            "label": "Biochemistry"
+        },
+        {
+            "value": "111",
+            "label": "Botany"
+        },
+        {
+            "value": "112",
+            "label": "Business Administration"
+        },
+        {
+            "value": "250",
+            "label": "Business Studies"
+        },
+        {
+            "value": "302",
+            "label": "Chemical Engineering"
+        },
+        {
+            "value": "113",
+            "label": "Chemistry"
+        },
+        {
+            "value": "303",
+            "label": "Civil Engineering"
+        },
+        {
+            "value": "115",
+            "label": "Clinical Psychology"
+        },
+        {
+            "value": "183",
+            "label": "Communication Disorders"
+        },
+        {
+            "value": "184",
+            "label": "Computer Engineering"
+        },
+        {
+            "value": "114",
+            "label": "Computer Science"
+        },
+        {
+            "value": "185",
+            "label": "Computer Science & Engineering"
+        },
+        {
+            "value": "186",
+            "label": "Computer Science & Information Technology"
+        },
+        {
+            "value": "228",
+            "label": "Corp Botany"
+        },
+        {
+            "value": "182",
+            "label": "Criminology"
+        },
+        {
+            "value": "179",
+            "label": "Criminology & Police Science"
+        },
+        {
+            "value": "229",
+            "label": "Dairy Science"
+        },
+        {
+            "value": "117",
+            "label": "Development Studies"
+        },
+        {
+            "value": "408",
+            "label": "Disaster Science and Management"
+        },
+        {
+            "value": "230",
+            "label": "Doc.of Veterinary Science"
+        },
+        {
+            "value": "116",
+            "label": "Drama & Music"
+        },
+        {
+            "value": "174",
+            "label": "Drawing and Printing"
+        },
+        {
+            "value": "118",
+            "label": "Economics"
+        },
+        {
+            "value": "119",
+            "label": "Education"
+        },
+        {
+            "value": "306",
+            "label": "Electrical & Electronics Engineering"
+        },
+        {
+            "value": "305",
+            "label": "Electrical Engineering"
+        },
+        {
+            "value": "307",
+            "label": "Electronic Engineering"
+        },
+        {
+            "value": "397",
+            "label": "Electronics & Communication Engineering"
+        },
+        {
+            "value": "400",
+            "label": "Electronics & Telecommunication Engineering"
+        },
+        {
+            "value": "120",
+            "label": "English"
+        },
+        {
+            "value": "327",
+            "label": "Environmental Engineering"
+        },
+        {
+            "value": "189",
+            "label": "Environmental science"
+        },
+        {
+            "value": "176",
+            "label": "Ethics"
+        },
+        {
+            "value": "237",
+            "label": "Farm Power & Machinery"
+        },
+        {
+            "value": "239",
+            "label": "Farm Structure"
+        },
+        {
+            "value": "171",
+            "label": "Fikha"
+        },
+        {
+            "value": "121",
+            "label": "Finance"
+        },
+        {
+            "value": "192",
+            "label": "Finance and Banking"
+        },
+        {
+            "value": "122",
+            "label": "Fine Arts"
+        },
+        {
+            "value": "231",
+            "label": "Fisheries"
+        },
+        {
+            "value": "232",
+            "label": "Fisheries & Aquaculture"
+        },
+        {
+            "value": "233",
+            "label": "Fisheries Biology"
+        },
+        {
+            "value": "234",
+            "label": "Fisheries Management"
+        },
+        {
+            "value": "235",
+            "label": "Fisheries Technology"
+        },
+        {
+            "value": "123",
+            "label": "Folklore"
+        },
+        {
+            "value": "330",
+            "label": "Food and Process Engineering"
+        },
+        {
+            "value": "238",
+            "label": "Food Tech. & Rural Industry"
+        },
+        {
+            "value": "413",
+            "label": "Food Technology and Nutrition Science"
+        },
+        {
+            "value": "406",
+            "label": "Food Technology and Nutritional Science"
+        },
+        {
+            "value": "177",
+            "label": "Forestry"
+        },
+        {
+            "value": "167",
+            "label": "Genetic and Breeding"
+        },
+        {
+            "value": "308",
+            "label": "Genetic Engineering"
+        },
+        {
+            "value": "190",
+            "label": "Genetic Engineering and Biotechnology"
+        },
+        {
+            "value": "124",
+            "label": "Geography"
+        },
+        {
+            "value": "125",
+            "label": "Geography and Environmental Science"
+        },
+        {
+            "value": "188",
+            "label": "Geology/Geology and Mining"
+        },
+        {
+            "value": "407",
+            "label": "Glass and Ceramic Engineering"
+        },
+        {
+            "value": "195",
+            "label": "Government and Politics"
+        },
+        {
+            "value": "170",
+            "label": "Graphics"
+        },
+        {
+            "value": "128",
+            "label": "Hadith"
+        },
+        {
+            "value": "126",
+            "label": "History"
+        },
+        {
+            "value": "173",
+            "label": "History of Music"
+        },
+        {
+            "value": "127",
+            "label": "Home Economics"
+        },
+        {
+            "value": "241",
+            "label": "Horticulture"
+        },
+        {
+            "value": "271",
+            "label": "Human Resource Management"
+        },
+        {
+            "value": "175",
+            "label": "Industrial Arts"
+        },
+        {
+            "value": "309",
+            "label": "Industrial Engineering"
+        },
+        {
+            "value": "401",
+            "label": "Information and Communication Engineering"
+        },
+        {
+            "value": "132",
+            "label": "Information and Communication Technology"
+        },
+        {
+            "value": "135",
+            "label": "Information Science and Library Management"
+        },
+        {
+            "value": "187",
+            "label": "Information Technology"
+        },
+        {
+            "value": "269",
+            "label": "International Business"
+        },
+        {
+            "value": "168",
+            "label": "International Law"
+        },
+        {
+            "value": "129",
+            "label": "International Relations"
+        },
+        {
+            "value": "130",
+            "label": "Islamic History and Culture"
+        },
+        {
+            "value": "131",
+            "label": "Islamic Studies"
+        },
+        {
+            "value": "136",
+            "label": "Language/Linguistic"
+        },
+        {
+            "value": "134",
+            "label": "Law/Jurisprudence"
+        },
+        {
+            "value": "310",
+            "label": "Leather Engineering"
+        },
+        {
+            "value": "242",
+            "label": "Livestock"
+        },
+        {
+            "value": "137",
+            "label": "Management"
+        },
+        {
+            "value": "266",
+            "label": "Management Information Systems"
+        },
+        {
+            "value": "311",
+            "label": "Marine Engineering"
+        },
+        {
+            "value": "141",
+            "label": "Marine Science"
+        },
+        {
+            "value": "138",
+            "label": "Marketing"
+        },
+        {
+            "value": "133",
+            "label": "Mass Comm. & Journalism"
+        },
+        {
+            "value": "191",
+            "label": "Materials Science & Engineering"
+        },
+        {
+            "value": "139",
+            "label": "Mathematics"
+        },
+        {
+            "value": "312",
+            "label": "Mechanical Engineering"
+        },
+        {
+            "value": "403",
+            "label": "Medical Physics and Biomedical Engineering"
+        },
+        {
+            "value": "142",
+            "label": "Medical Technology"
+        },
+        {
+            "value": "313",
+            "label": "Metallurgical Engineering"
+        },
+        {
+            "value": "405",
+            "label": "Meteorology"
+        },
+        {
+            "value": "140",
+            "label": "Microbiology"
+        },
+        {
+            "value": "243",
+            "label": "Microbiology & Hygenic"
+        },
+        {
+            "value": "325",
+            "label": "Microwave Engineering"
+        },
+        {
+            "value": "314",
+            "label": "Mineral Engineering"
+        },
+        {
+            "value": "315",
+            "label": "Mining Engineering"
+        },
+        {
+            "value": "172",
+            "label": "Modern Arabic"
+        },
+        {
+            "value": "316",
+            "label": "Naval Architecture & Marine Engineering"
+        },
+        {
+            "value": "411",
+            "label": "Nuclear Engineering"
+        },
+        {
+            "value": "410",
+            "label": "Nutrition & Food Science"
+        },
+        {
+            "value": "409",
+            "label": "Oceanography"
+        },
+        {
+            "value": "272",
+            "label": "Organization Strategy and Leadership"
+        },
+        {
+            "value": "143",
+            "label": "Pali"
+        },
+        {
+            "value": "246",
+            "label": "Paratrology"
+        },
+        {
+            "value": "153",
+            "label": "Peace & Conflict"
+        },
+        {
+            "value": "144",
+            "label": "Persian"
+        },
+        {
+            "value": "412",
+            "label": "Petroleum & Mining Engineering"
+        },
+        {
+            "value": "154",
+            "label": "Pharmaceutical Chemistry"
+        },
+        {
+            "value": "145",
+            "label": "Pharmacy"
+        },
+        {
+            "value": "146",
+            "label": "Philosophy"
+        },
+        {
+            "value": "317",
+            "label": "Physical Planning"
+        },
+        {
+            "value": "147",
+            "label": "Physics"
+        },
+        {
+            "value": "245",
+            "label": "Plant Pathology"
+        },
+        {
+            "value": "148",
+            "label": "Political Science"
+        },
+        {
+            "value": "152",
+            "label": "Population Science"
+        },
+        {
+            "value": "196",
+            "label": "Population Science and Human Resource Development (RU)"
+        },
+        {
+            "value": "247",
+            "label": "Poultry Science"
+        },
+        {
+            "value": "193",
+            "label": "Printing and Publication Studies"
+        },
+        {
+            "value": "244",
+            "label": "Production Economics"
+        },
+        {
+            "value": "149",
+            "label": "Psychology"
+        },
+        {
+            "value": "150",
+            "label": "Public Administration"
+        },
+        {
+            "value": "151",
+            "label": "Public Finance"
+        },
+        {
+            "value": "318",
+            "label": "Regional Planning"
+        },
+        {
+            "value": "248",
+            "label": "Rural Sociology"
+        },
+        {
+            "value": "155",
+            "label": "Sanskrit"
+        },
+        {
+            "value": "156",
+            "label": "Social Welfare/Social Work"
+        },
+        {
+            "value": "194",
+            "label": "Social Works"
+        },
+        {
+            "value": "157",
+            "label": "Sociology"
+        },
+        {
+            "value": "329",
+            "label": "Software Engineering"
+        },
+        {
+            "value": "158",
+            "label": "Soil Water and Environment Science"
+        },
+        {
+            "value": "159",
+            "label": "Statistics"
+        },
+        {
+            "value": "319",
+            "label": "Structural Engineering"
+        },
+        {
+            "value": "249",
+            "label": "Surgery & Obstate"
+        },
+        {
+            "value": "160",
+            "label": "Tafsir"
+        },
+        {
+            "value": "323",
+            "label": "Telecommunication Engineering"
+        },
+        {
+            "value": "180",
+            "label": "Television, Film and Photography"
+        },
+        {
+            "value": "320",
+            "label": "Textile Engineering"
+        },
+        {
+            "value": "270",
+            "label": "Tourism and Hospitality Management"
+        },
+        {
+            "value": "321",
+            "label": "Town Planning"
+        },
+        {
+            "value": "322",
+            "label": "Urban & Regional Planning"
+        },
+        {
+            "value": "162",
+            "label": "Urban Development"
+        },
+        {
+            "value": "161",
+            "label": "Urdu"
+        },
+        {
+            "value": "165",
+            "label": "Water & Environment Science"
+        },
+        {
+            "value": "398",
+            "label": "Water Resource Engineering"
+        },
+        {
+            "value": "181",
+            "label": "Women and Gender Studies"
+        },
+        {
+            "value": "164",
+            "label": "Women Studies"
+        },
+        {
+            "value": "163",
+            "label": "World Religion"
+        },
+        {
+            "value": "166",
+            "label": "Zoology"
+        },
+        {
+            "value": "999",
+            "label": "Other"
+        }
+    ],
+    "2": [
+        { "label": "Agr.Co-operative & Marketing", "value": "226" },
+        { "label": "Agriculture Chemistry", "value": "202" },
+        { "label": "Agriculture Co-operatives", "value": "203" }
+    ]
+}

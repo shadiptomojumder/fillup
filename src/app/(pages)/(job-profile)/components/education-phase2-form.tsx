@@ -9,34 +9,22 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createProfileSchema } from "@/interfaces/jobProfile.schemas";
+import { educationPhase2Schema } from "@/interfaces/jobProfile.schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import GraduationField from "./graduation-fields";
+import MastersField from "./masters-fields";
 
 interface EducationPhase2FormProps {
     onNext: () => void;
     onPrevious: () => void;
 }
 
-const educationSchema = createProfileSchema.pick({
-    if_applicable_gra: true,
-    gra_exam: true,
-    gra_institute: true,
-    gra_institute_other: true,
-    gra_subject: true,
-    gra_subject_other: true,
-    gra_result_type: true,
-    gra_result: true,
-    gra_duration: true,
-    gra_year: true,
-});
-type EducationSchema = z.infer<typeof educationSchema>;
+type EducationSchema = z.infer<typeof educationPhase2Schema>;
 
 export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormProps) {
     const [isBachelorApplicable, setIsBachelorApplicable] = useState(false);
@@ -49,14 +37,64 @@ export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormP
         setValue,
         formState: { errors },
         reset,
+        unregister,
         watch,
     } = useForm<EducationSchema>({
-        resolver: zodResolver(educationSchema),
+        resolver: zodResolver(educationPhase2Schema),
+        defaultValues: {
+            if_applicable_gra: 0,
+            if_applicable_mas: 0,
+        },
     });
     console.log("Education info Errors:", errors);
 
     const onSubmit: SubmitHandler<EducationSchema> = async (data) => {
         console.log("Form data is:", data);
+
+        let filteredData = { ...data };
+
+        if (!isBachelorApplicable) {
+            // Completely remove unwanted fields from submission payload
+            delete filteredData.if_applicable_gra;
+            delete filteredData.gra_exam;
+            delete filteredData.gra_institute;
+            delete filteredData.gra_subject;
+            delete filteredData.gra_result_type;
+            delete filteredData.gra_result;
+            delete filteredData.gra_duration;
+            delete filteredData.gra_year;
+        }
+        if (!isMastersApplicable) {
+            // Completely remove unwanted fields from submission payload
+            delete filteredData.if_applicable_mas;
+            delete filteredData.mas_exam;
+            delete filteredData.mas_institute;
+            delete filteredData.mas_subject;
+            delete filteredData.mas_result_type;
+            delete filteredData.mas_result;
+            delete filteredData.mas_duration;
+            delete filteredData.mas_year;
+        }
+
+        console.log("Form data after cleaning:", filteredData);
+
+        // if (data.if_applicable_gra !== 1) {
+        //     // Remove unnecessary fields from data
+        //     const {
+        //         if_applicable_gra,
+        //         gra_exam,
+        //         gra_institute,
+        //         gra_subject,
+        //         gra_result_type,
+        //         gra_result,
+        //         gra_duration,
+        //         gra_year,
+        //         ...cleaned
+        //     } = data;
+        //     console.log("Cleaned form data:", cleaned);
+        //     return;
+        // }
+
         // Dispatch to Redux store
         // dispatch(updateProfileStep(data));
         // // Proceed to next step
@@ -78,14 +116,28 @@ export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormP
                             <h3 className="font-medium">Bachelor's Degree</h3>
                             <div className="flex items-center space-x-2">
                                 <Checkbox
-                                    id="bachelor-applicable"
+                                    id="if_applicable_gra"
                                     checked={isBachelorApplicable}
-                                    onCheckedChange={(checked) =>
-                                        setIsBachelorApplicable(checked === true)
-                                    }
+                                    onCheckedChange={(checked) => {
+                                        const isChecked = checked === true;
+                                        setIsBachelorApplicable(isChecked);
+
+                                        if (isChecked) {
+                                            setValue("if_applicable_gra", 1);
+                                        } else {
+                                            setValue("if_applicable_gra", 0); // explicitly set to 0 for clarity
+                                            unregister("gra_exam", { keepError: false });
+                                            unregister("gra_institute", { keepError: false });
+                                            unregister("gra_subject", { keepError: false });
+                                            unregister("gra_result_type", { keepError: false });
+                                            unregister("gra_result", { keepError: false });
+                                            unregister("gra_duration", { keepError: false });
+                                            unregister("gra_year", { keepError: false });
+                                        }
+                                    }}
                                 />
                                 <Label
-                                    htmlFor="bachelor-applicable"
+                                    htmlFor="if_applicable_gra"
                                     className="cursor-pointer text-sm font-normal">
                                     If Applicable
                                 </Label>
@@ -98,7 +150,6 @@ export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormP
                             watch={watch}
                             isBachelorApplicable={isBachelorApplicable}
                         />
-                        
                     </div>
 
                     <div className="space-y-4">
@@ -106,61 +157,47 @@ export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormP
                             <h3 className="font-medium">Master's Degree</h3>
                             <div className="flex items-center space-x-2">
                                 <Checkbox
-                                    id="masters-applicable"
+                                    id="if_applicable_mas"
                                     checked={isMastersApplicable}
-                                    onCheckedChange={(checked) =>
-                                        setIsMastersApplicable(checked === true)
-                                    }
+                                    onCheckedChange={(checked) => {
+                                        const isChecked = checked === true;
+                                        setIsMastersApplicable(isChecked);
+
+                                        if (isChecked) {
+                                            setValue("if_applicable_mas", 1);
+                                        } else {
+                                            setValue("if_applicable_mas", 0); // explicitly set to 0 for clarity
+                                            unregister("mas_exam", { keepError: false });
+                                            unregister("mas_institute", { keepError: false });
+                                            unregister("mas_subject", { keepError: false });
+                                            unregister("mas_result_type", { keepError: false });
+                                            unregister("mas_result", { keepError: false });
+                                            unregister("mas_duration", { keepError: false });
+                                            unregister("mas_year", { keepError: false });
+                                        }
+                                    }}
                                 />
                                 <Label
-                                    htmlFor="masters-applicable"
+                                    htmlFor="if_applicable_mas"
                                     className="cursor-pointer text-sm font-normal">
                                     If Applicable
                                 </Label>
                             </div>
                         </div>
-                        <div
-                            className={`grid grid-cols-1 gap-4 md:grid-cols-2 ${isMastersApplicable ? "" : "hover:cursor-not-allowed"}`}>
-                            <div className="space-y-2">
-                                <Label htmlFor="masters-university">University/Institution</Label>
-                                <Input
-                                    id="masters-university"
-                                    placeholder="University of Dhaka"
-                                    disabled={!isMastersApplicable}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="masters-degree">Degree</Label>
-                                <Input
-                                    id="masters-degree"
-                                    placeholder="MSc in Computer Science"
-                                    disabled={!isMastersApplicable}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="masters-year">Passing Year</Label>
-                                <Input
-                                    id="masters-year"
-                                    placeholder="2018"
-                                    disabled={!isMastersApplicable}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="masters-result">Result (CGPA/Class)</Label>
-                                <Input
-                                    id="masters-result"
-                                    placeholder="3.90"
-                                    disabled={!isMastersApplicable}
-                                />
-                            </div>
-                        </div>
+                        <MastersField
+                            register={register}
+                            errors={errors}
+                            control={control}
+                            watch={watch}
+                            isMastersApplicable={isMastersApplicable}
+                        />
                     </div>
                 </CardContent>
                 <CardFooter className="flex justify-between">
                     <Button variant="outline" type="button" onClick={onPrevious}>
                         Back
                     </Button>
-                    <Button type="button" onClick={onNext}>
+                    <Button type="submit">
                         Next
                         <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
