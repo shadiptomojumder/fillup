@@ -18,6 +18,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import GraduationField from "./graduation-fields";
 import MastersField from "./masters-fields";
+import { useDispatch } from "react-redux";
+import { updateProfileStep } from "@/lib/slices/profileSlice";
 
 interface EducationPhase2FormProps {
     onNext: () => void;
@@ -29,6 +31,8 @@ type EducationSchema = z.infer<typeof educationPhase2Schema>;
 export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormProps) {
     const [isBachelorApplicable, setIsBachelorApplicable] = useState(false);
     const [isMastersApplicable, setIsMastersApplicable] = useState(false);
+
+    const dispatch = useDispatch();
 
     const {
         register,
@@ -78,26 +82,9 @@ export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormP
 
         console.log("Form data after cleaning:", filteredData);
 
-        // if (data.if_applicable_gra !== 1) {
-        //     // Remove unnecessary fields from data
-        //     const {
-        //         if_applicable_gra,
-        //         gra_exam,
-        //         gra_institute,
-        //         gra_subject,
-        //         gra_result_type,
-        //         gra_result,
-        //         gra_duration,
-        //         gra_year,
-        //         ...cleaned
-        //     } = data;
-        //     console.log("Cleaned form data:", cleaned);
-        //     return;
-        // }
-
         // Dispatch to Redux store
-        // dispatch(updateProfileStep(data));
-        // // Proceed to next step
+        dispatch(updateProfileStep(filteredData));
+        // Proceed to next step
         // onNext();
     };
 

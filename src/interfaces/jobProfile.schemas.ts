@@ -4,13 +4,44 @@ import * as z from "zod";
 const bdPhoneRegex = /^(?:\+8801|8801|01)[3-9]\d{8}$/;
 
 // Nested schemas for present_address, ssc, hsc (all fields required except group_other, board_other)
-const presentAddressSchema = z.object({
-    careof: z.string({ required_error: "Care of is required" }),
-    village: z.string({ required_error: "Village is required" }),
-    district: z.string({ required_error: "District is required" }),
-    upazila: z.string({ required_error: "Upazila is required" }),
-    post: z.string({ required_error: "Post is required" }),
-    postcode: z.string({ required_error: "Postcode is required" }),
+export const addressSchema = z.object({
+    same_as_present: z.coerce.number().optional().nullable(),
+    present_careof: z
+        .string({ required_error: "Care of is required" })
+        .nonempty({ message: "Care of is required" })
+        .min(2, { message: "Care of must be at least 2 characters long." }),
+    present_village: z
+        .string({ required_error: "Village is required" })
+        .nonempty({ message: "Village is required." })
+        .min(2, { message: "Village must be at least 2 characters long." }),
+    present_district: z.string({ required_error: "District is required" }),
+    present_upazila: z.string({ required_error: "Upazila is required" }),
+    present_post: z
+        .string({ required_error: "Post office is required" })
+        .nonempty({ message: "Post office is required" })
+        .min(2, { message: "Post office must be at least 2 characters long." }),
+    present_postcode: z
+        .string({ required_error: "Postcode is required" })
+        .nonempty({ message: "Postcode is required." })
+        .min(2, { message: "Postcode must be at least 2 characters long." }),
+    permanent_careof: z
+        .string({ required_error: "Care of is required" })
+        .nonempty({ message: "Care of is required" })
+        .min(2, { message: "Care of must be at least 2 characters long." }),
+    permanent_village: z
+        .string({ required_error: "Village is required" })
+        .nonempty({ message: "Village is required." })
+        .min(2, { message: "Village must be at least 2 characters long." }),
+    permanent_district: z.string({ required_error: "District is required" }),
+    permanent_upazila: z.string({ required_error: "Upazila is required" }),
+    permanent_post: z
+        .string({ required_error: "Post office is required" })
+        .nonempty({ message: "Post office is required" })
+        .min(2, { message: "Post office must be at least 2 characters long." }),
+    permanent_postcode: z
+        .string({ required_error: "Postcode is required" })
+        .nonempty({ message: "Postcode is required." })
+        .min(2, { message: "Postcode must be at least 2 characters long." }),
 });
 
 const SSCSchema = z.object({
@@ -40,24 +71,6 @@ const HSCSchema = z.object({
         .string({ required_error: "Passing year is required" })
         .nonempty({ message: "Passing year is required." }),
 });
-
-// const GratuationSchema = z.object({
-//     if_applicable_gra: z.coerce
-//         .number({ required_error: "Result is required" })
-//         .optional()
-//         .nullable(),
-//     gra_exam: z.string({ required_error: "Exam is required" }),
-//     gra_institute: z.coerce.string({ required_error: "Roll is required" }),
-//     gra_institute_other: z.string().optional().nullable(),
-//     gra_subject: z.string({ required_error: "Board is required" }),
-//     gra_subject_other: z.string().optional().nullable(),
-//     gra_result_type: z.string({ required_error: "Result type is required" }),
-//     gra_result: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
-//     gra_duration: z.coerce.number({ required_error: "Result is required" }).optional().nullable(),
-//     gra_year: z
-//         .string({ required_error: "Passing year is required" })
-//         .nonempty({ message: "Passing year is required." }),
-// });
 
 export const gratuationSchema = z
     .object({
@@ -380,8 +393,6 @@ export const createProfileSchema = z
         marital_status: z.string({ required_error: "Marital status is required" }),
         quota: z.string({ required_error: "Quota is required" }),
         dep_status: z.string().optional(),
-
-        present_address: presentAddressSchema,
     })
     .merge(SSCSchema)
     .merge(HSCSchema);
@@ -420,14 +431,19 @@ export interface IProfile {
     quota: string;
     dep_status?: string;
 
-    present_address: {
-        careof: string;
-        village: string;
-        district: string;
-        upazila: string;
-        post: string;
-        postcode: string;
-    };
+    same_as_present?: number | null;
+    present_careof: string;
+    present_village: string;
+    present_district: string;
+    present_upazila: string;
+    present_post: string;
+    present_postcode: string;
+    permanent_careof: string;
+    permanent_village: string;
+    permanent_district: string;
+    permanent_upazila: string;
+    permanent_post: string;
+    permanent_postcode: string;
 
     ssc_exam: string;
     ssc_roll: number;
@@ -448,6 +464,24 @@ export interface IProfile {
     hsc_result_type: string;
     hsc_result?: number | null;
     hsc_year: string;
+
+    if_applicable_gra?: number | null;
+    gra_exam?: string;
+    gra_institute?: string;
+    gra_subject?: string;
+    gra_result_type?: string;
+    gra_result?: number | null;
+    gra_duration?: string | null;
+    gra_year?: string | null;
+
+    if_applicable_mas?: number | null;
+    mas_exam?: string;
+    mas_institute?: string;
+    mas_subject?: string;
+    mas_result_type?: string;
+    mas_result?: number | null;
+    mas_duration?: string | null;
+    mas_year?: string | null;
 
     createdAt?: Date;
     updatedAt?: Date;

@@ -8,103 +8,158 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { z } from "zod";
+import PresentAddressFields from "./present-address-form";
+
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { addressSchema } from "@/interfaces/jobProfile.schemas";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import PermanentAddressFields from "./permanent-address-form";
+import { updateProfileStep } from "@/lib/slices/profileSlice";
 
 interface AddressFormProps {
     onPrevious: () => void;
     isSaving: boolean;
 }
+type AddressSchema = z.infer<typeof addressSchema>;
 
 export function AddressForm({ onPrevious, isSaving }: AddressFormProps) {
+    const dispatch = useDispatch();
+    const [isSameAsPresent, setIsSameAsPresent] = useState(false);
+    const {
+        register,
+        control,
+        handleSubmit,
+        setValue,
+        formState: { errors },
+        unregister,
+        clearErrors,
+        watch,
+    } = useForm<AddressSchema>({
+        resolver: zodResolver(addressSchema),
+        defaultValues: {
+            same_as_present: 0,
+        },
+    });
+    console.log("Education info Errors:", errors);
+
+    // Watch present address fields
+    const presentAddressFields = useWatch({
+        control,
+        name: [
+            "present_careof",
+            "present_village",
+            "present_district",
+            "present_upazila",
+            "present_post",
+            "present_postcode",
+        ],
+    });
+
+    // Sync present address to permanent if "Same as" is checked
+    useEffect(() => {
+        if (isSameAsPresent) {
+            const [careof, village, district, upazila, post, postcode] = presentAddressFields;
+            setValue("permanent_careof", careof);
+            setValue("permanent_village", village);
+            setValue("permanent_district", district);
+            setValue("permanent_upazila", upazila);
+            setValue("permanent_post", post);
+            setValue("permanent_postcode", postcode);
+        }
+    }, [isSameAsPresent, presentAddressFields, setValue]);
+
+    const onSubmit: SubmitHandler<AddressSchema> = async (data) => {
+        console.log("Form data is:", data);
+        // Dispatch to Redux store
+        dispatch(updateProfileStep(data));
+    };
     return (
         <>
             <CardHeader>
                 <CardTitle>Address Information</CardTitle>
-                <CardDescription>Enter your permanent and present address details.</CardDescription>
+                <CardDescription>Enter your present and permanent address details.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-                <div className="space-y-4">
-                    <h3 className="font-medium">Permanent Address</h3>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <div className="space-y-2 md:col-span-2">
-                            <Label htmlFor="permanent-address-en">Address Line (English)</Label>
-                            <Textarea
-                                id="permanent-address-en"
-                                placeholder="Village/House No., Road, Area"
-                            />
-                        </div>
-                        <div className="space-y-2 md:col-span-2">
-                            <Label htmlFor="permanent-address-bn">Address Line (Bangla)</Label>
-                            <Textarea
-                                id="permanent-address-bn"
-                                placeholder="গ্রাম/বাড়ি নং, রাস্তা, এলাকা"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="permanent-district">District</Label>
-                            <Input id="permanent-district" placeholder="Dhaka" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="permanent-upazila">Upazila/Thana</Label>
-                            <Input id="permanent-upazila" placeholder="Mirpur" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="permanent-post-office">Post Office</Label>
-                            <Input id="permanent-post-office" placeholder="Mirpur" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="permanent-post-code">Post Code</Label>
-                            <Input id="permanent-post-code" placeholder="1216" />
-                        </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                        <h3 className="font-medium">Present Address</h3>
+                        <PresentAddressFields
+                            register={register}
+                            errors={errors}
+                            control={control}
+                            watch={watch}
+                        />
                     </div>
-                </div>
 
-                <div className="space-y-4">
-                    <h3 className="font-medium">Present Address</h3>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <div className="space-y-2 md:col-span-2">
-                            <Label htmlFor="present-address-en">Address Line (English)</Label>
-                            <Textarea
-                                id="present-address-en"
-                                placeholder="Village/House No., Road, Area"
-                            />
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-start gap-3">
+                            <h3 className="font-medium">Permanent Address</h3>
+                            <div className="flex items-center space-x-2">
+                                <Checkbox
+                                    id="same_as_present"
+                                    checked={isSameAsPresent}
+                                    onCheckedChange={(checked) => {
+                                        const isChecked = checked === true;
+                                        setIsSameAsPresent(isChecked);
+
+                                        if (!isChecked) {
+                                            // Clear permanent fields if unchecked
+                                            const fields = [
+                                                "careof",
+                                                "village",
+                                                "district",
+                                                "upazila",
+                                                "post",
+                                                "postcode",
+                                            ];
+                                            fields.forEach((field) =>
+                                                setValue(
+                                                    `permanent_${field}` as keyof AddressSchema,
+                                                    "",
+                                                ),
+                                            );
+                                        } else {
+                                            setValue("same_as_present", 0);
+                                            unregister("permanent_careof", { keepError: false });
+                                            unregister("permanent_village", { keepError: false });
+                                            unregister("permanent_district", { keepError: false });
+                                            unregister("permanent_upazila", { keepError: false });
+                                            unregister("permanent_post", { keepError: false });
+                                            unregister("permanent_postcode", { keepError: false });
+                                        }
+                                    }}
+                                />
+                                <Label
+                                    htmlFor="same_as_present"
+                                    className="cursor-pointer text-sm font-normal">
+                                    Same as Present Address
+                                </Label>
+                            </div>
                         </div>
-                        <div className="space-y-2 md:col-span-2">
-                            <Label htmlFor="present-address-bn">Address Line (Bangla)</Label>
-                            <Textarea
-                                id="present-address-bn"
-                                placeholder="গ্রাম/বাড়ি নং, রাস্তা, এলাকা"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="present-district">District</Label>
-                            <Input id="present-district" placeholder="Dhaka" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="present-upazila">Upazila/Thana</Label>
-                            <Input id="present-upazila" placeholder="Mirpur" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="present-post-office">Post Office</Label>
-                            <Input id="present-post-office" placeholder="Mirpur" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="present-post-code">Post Code</Label>
-                            <Input id="present-post-code" placeholder="1216" />
-                        </div>
+                        <PermanentAddressFields
+                            register={register}
+                            errors={errors}
+                            control={control}
+                            watch={watch}
+                            isSameAsPresent={isSameAsPresent}
+                            setValue={setValue}
+                        />
                     </div>
-                </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-                <Button variant="outline" type="button" onClick={onPrevious}>
-                    Back
-                </Button>
-                <Button type="submit" disabled={isSaving}>
-                    {isSaving ? "Saving..." : "Save Changes"}
-                </Button>
-            </CardFooter>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                    <Button variant="outline" type="button" onClick={onPrevious}>
+                        Back
+                    </Button>
+                    <Button type="submit" disabled={isSaving}>
+                        {isSaving ? "Saving..." : "Save Changes"}
+                    </Button>
+                </CardFooter>
+            </form>
         </>
     );
 }
