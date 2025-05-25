@@ -18,11 +18,13 @@ import {
 } from "@/components/ui/select";
 import { createProfileSchema } from "@/interfaces/jobProfile.schemas";
 import { clearProfile, updateProfileStep } from "@/lib/slices/profileSlice";
+import { RootState } from "@/lib/store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format, parseISO } from "date-fns";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { z } from "zod";
 
 interface PersonalInformationFormProps {
@@ -51,6 +53,8 @@ type PersonalInfoSchema = z.infer<typeof personalInfoSchema>;
 export function PersonalInformationForm({ onNext, onCancel }: PersonalInformationFormProps) {
     const dispatch = useDispatch();
     const [selectedQuota, setSelectedQuota] = useState<string | undefined>(undefined);
+    const { profile } = useSelector((state: RootState) => state.profile);
+    console.log("Profile DOB:",);
 
     const showQuotaDetails = selectedQuota && selectedQuota !== "8"; // Show details if any quota except "Not Applicable" is selected
 
@@ -79,7 +83,10 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
         resolver: zodResolver(personalInfoSchema),
         defaultValues: {
             quota: "8",
-            dep_status: "5",
+            religion: profile.religion || "",
+            gender: profile.gender || "",
+            marital_status: profile.marital_status || "",
+            dep_status: profile.dep_status || "5",
         },
     });
     console.log("Personal info Errors:", errors);
@@ -95,6 +102,33 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
         dispatch(clearProfile());
         onCancel();
     };
+
+    // Load previous values into form on mount
+    useEffect(() => {
+        if (profile?.name) {
+            reset({
+                name: profile.name,
+                name_bn: profile.name_bn,
+                father: profile.father,
+                father_bn: profile.father_bn,
+                mother: profile.mother,
+                mother_bn: profile.mother_bn,
+                dob: profile.dob ? format(parseISO(profile?.dob || ""), "yyyy-MM-dd") : "", // ✅ formatted using date-fns
+                religion: profile.religion || "",
+                gender: profile.gender,
+                nid_no: profile.nid_no,
+                marital_status: profile.marital_status,
+                mobile: profile.mobile,
+                email: profile.email,
+                quota: profile.quota || "8",
+                dep_status: profile.dep_status || "5",
+            });
+
+            // Optional: set selectedQuota for UI logic
+            setSelectedQuota(profile.quota);
+        }
+    }, [profile, reset]);
+    console.log("profile.religion", profile.religion, typeof profile.religion);
 
     return (
         <>

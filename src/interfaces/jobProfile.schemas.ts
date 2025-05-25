@@ -359,7 +359,7 @@ export const createProfileSchema = z
             .string({ required_error: "Mother's Bangla name is required" })
             .nonempty({ message: "Mother's Bangla name name is required." })
             .min(2, { message: "Mother's Bangla name name must be at least 2 characters long." }),
-        dob: z.coerce.date({ required_error: "Date of birth is required" }),
+        dob: z.coerce.string({ required_error: "Date of birth is required" }),
         religion: z
             .string({ required_error: "Religion is required" })
             .nonempty({ message: "Religion is required" }),
@@ -412,7 +412,7 @@ export interface IProfile {
     father_bn: string;
     mother: string;
     mother_bn: string;
-    dob: Date;
+    dob: string;
     gender: string;
 
     nid: string;
