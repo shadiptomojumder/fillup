@@ -54,7 +54,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
     const dispatch = useDispatch();
     const [selectedQuota, setSelectedQuota] = useState<string | undefined>(undefined);
     const { profile } = useSelector((state: RootState) => state.profile);
-    console.log("Profile DOB:",);
+    console.log("Profile DOB:");
 
     const showQuotaDetails = selectedQuota && selectedQuota !== "8"; // Show details if any quota except "Not Applicable" is selected
 
@@ -82,10 +82,20 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
     } = useForm<PersonalInfoSchema>({
         resolver: zodResolver(personalInfoSchema),
         defaultValues: {
-            quota: "8",
+            name: profile.name || "",
+            name_bn: profile.name_bn || "",
+            father: profile.father || "",
+            father_bn: profile.father_bn || "",
+            mother: profile.mother || "",
+            mother_bn: profile.mother_bn || "",
+            dob: profile.dob ? format(parseISO(profile?.dob || ""), "yyyy-MM-dd") : "", // ✅ formatted using date-fns
             religion: profile.religion || "",
             gender: profile.gender || "",
+            nid_no: profile.nid_no || "",
             marital_status: profile.marital_status || "",
+            mobile: profile.mobile || "",
+            email: profile.email || "",
+            quota: profile.quota || "8",
             dep_status: profile.dep_status || "5",
         },
     });
@@ -107,19 +117,19 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
     useEffect(() => {
         if (profile?.name) {
             reset({
-                name: profile.name,
-                name_bn: profile.name_bn,
-                father: profile.father,
-                father_bn: profile.father_bn,
-                mother: profile.mother,
-                mother_bn: profile.mother_bn,
+                name: profile.name || "",
+                name_bn: profile.name_bn || "",
+                father: profile.father || "",
+                father_bn: profile.father_bn || "",
+                mother: profile.mother || "",
+                mother_bn: profile.mother_bn || "",
                 dob: profile.dob ? format(parseISO(profile?.dob || ""), "yyyy-MM-dd") : "", // ✅ formatted using date-fns
                 religion: profile.religion || "",
-                gender: profile.gender,
-                nid_no: profile.nid_no,
-                marital_status: profile.marital_status,
-                mobile: profile.mobile,
-                email: profile.email,
+                gender: profile.gender || "",
+                nid_no: profile.nid_no || "",
+                marital_status: profile.marital_status || "",
+                mobile: profile.mobile || "",
+                email: profile.email || "",
                 quota: profile.quota || "8",
                 dep_status: profile.dep_status || "5",
             });
@@ -128,7 +138,6 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
             setSelectedQuota(profile.quota);
         }
     }, [profile, reset]);
-    console.log("profile.religion", profile.religion, typeof profile.religion);
 
     return (
         <>
@@ -148,7 +157,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
                             <Input
                                 {...register("name")}
                                 id="name-en"
-                                placeholder="John Doe"
+                                placeholder="Enter your full name"
                                 className="h-11 bg-gray-100"
                             />
                             <div className="h-5">
@@ -166,7 +175,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
                             <Input
                                 {...register("name_bn")}
                                 id="name-bn"
-                                placeholder="জন ডো"
+                                placeholder="Enter your name in Bangla"
                                 className="h-11 bg-gray-100"
                             />
                             <div className="h-5">
@@ -187,7 +196,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
                             <Input
                                 {...register("father")}
                                 id="father-name-en"
-                                placeholder="Father's name"
+                                placeholder="Enter father's name"
                                 className="h-11 bg-gray-100"
                             />
                             <div className="h-5">
@@ -205,7 +214,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
                             <Input
                                 {...register("father_bn")}
                                 id="father-name-bn"
-                                placeholder="বাবার নাম"
+                                placeholder="Enter father's name in Bangla"
                                 className="h-11 bg-gray-100"
                             />
                             <div className="h-5">
@@ -226,7 +235,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
                             <Input
                                 {...register("mother")}
                                 id="mother-name-en"
-                                placeholder="Mother's name"
+                                placeholder="Enter mother's name"
                                 className="h-11 bg-gray-100"
                             />
                             <div className="h-5">
@@ -244,7 +253,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
                             <Input
                                 {...register("mother_bn")}
                                 id="mother-name-bn"
-                                placeholder="মায়ের নাম"
+                                placeholder="Enter mother's name in Bangla"
                                 className="h-11 bg-gray-100"
                             />
                             <div className="h-5">
@@ -284,7 +293,7 @@ export function PersonalInformationForm({ onNext, onCancel }: PersonalInformatio
                                 {...register("nid_no")}
                                 id="nid"
                                 type="number"
-                                placeholder="1234567890"
+                                placeholder="Enter your NID number"
                                 className="h-11 bg-gray-100"
                             />
                             <div className="h-5">

@@ -15,7 +15,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { updateProfileStep } from "@/lib/slices/profileSlice";
-import { useDispatch } from "react-redux";
+import { RootState } from "@/lib/store";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import HSCField from "./hsc-fileds";
 import SSCField from "./ssc-fields";
 
@@ -48,6 +50,9 @@ type EducationSchema = z.infer<typeof educationSchema>;
 
 export function EducationPhase1Form({ onNext, onPrevious }: EducationFormProps) {
     const dispatch = useDispatch();
+    const { profile } = useSelector((state: RootState) => state.profile);
+    console.log("Profile DOB:");
+
     const {
         register,
         control,
@@ -58,8 +63,54 @@ export function EducationPhase1Form({ onNext, onPrevious }: EducationFormProps) 
         watch,
     } = useForm<EducationSchema>({
         resolver: zodResolver(educationSchema),
+        defaultValues: {
+            ssc_exam: profile.ssc_exam || "",
+            ssc_roll: profile.ssc_roll || 0,
+            ssc_group: profile.ssc_group || "",
+            ssc_group_other: profile.ssc_group_other || "",
+            ssc_board: profile.ssc_board || "",
+            ssc_board_other: profile.ssc_board_other || "",
+            ssc_result_type: profile.ssc_result_type || "",
+            ssc_result: profile.ssc_result || 0,
+            ssc_year: profile.ssc_year || "",
+            hsc_exam: profile.hsc_exam || "",
+            hsc_roll: profile.hsc_roll || 0,
+            hsc_group: profile.hsc_group || "",
+            hsc_group_other: profile.hsc_group_other || "",
+            hsc_board: profile.hsc_board || "",
+            hsc_board_other: profile.hsc_board_other || "",
+            hsc_result_type: profile.hsc_result_type || "",
+            hsc_result: profile.hsc_result || 0,
+            hsc_year: profile.hsc_year || "",
+        },
     });
     console.log("Education info Errors:", errors);
+
+    // Load previous values into form on mount
+    useEffect(() => {
+        if (profile.ssc_exam || profile.hsc_exam) {
+            reset({
+                ssc_exam: profile.ssc_exam || "",
+                ssc_roll: profile.ssc_roll || 0,
+                ssc_group: profile.ssc_group || "",
+                ssc_group_other: profile.ssc_group_other || "",
+                ssc_board: profile.ssc_board || "",
+                ssc_board_other: profile.ssc_board_other || "",
+                ssc_result_type: profile.ssc_result_type || "",
+                ssc_result: profile.ssc_result || 0,
+                ssc_year: profile.ssc_year || "",
+                hsc_exam: profile.hsc_exam || "",
+                hsc_roll: profile.hsc_roll || 0,
+                hsc_group: profile.hsc_group || "",
+                hsc_group_other: profile.hsc_group_other || "",
+                hsc_board: profile.hsc_board || "",
+                hsc_board_other: profile.hsc_board_other || "",
+                hsc_result_type: profile.hsc_result_type || "",
+                hsc_result: profile.hsc_result || 0,
+                hsc_year: profile.hsc_year || "",
+            });
+        }
+    }, [profile, reset]);
 
     const onSubmit: SubmitHandler<EducationSchema> = async (data) => {
         console.log("Form data is:", data);

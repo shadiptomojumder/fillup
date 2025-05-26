@@ -11,15 +11,16 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { educationPhase2Schema } from "@/interfaces/jobProfile.schemas";
+import { updateProfileStep } from "@/lib/slices/profileSlice";
+import { RootState } from "@/lib/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { z } from "zod";
 import GraduationField from "./graduation-fields";
 import MastersField from "./masters-fields";
-import { useDispatch } from "react-redux";
-import { updateProfileStep } from "@/lib/slices/profileSlice";
 
 interface EducationPhase2FormProps {
     onNext: () => void;
@@ -33,6 +34,7 @@ export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormP
     const [isMastersApplicable, setIsMastersApplicable] = useState(false);
 
     const dispatch = useDispatch();
+    const { profile } = useSelector((state: RootState) => state.profile);
 
     const {
         register,
@@ -46,11 +48,57 @@ export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormP
     } = useForm<EducationSchema>({
         resolver: zodResolver(educationPhase2Schema),
         defaultValues: {
-            if_applicable_gra: 0,
-            if_applicable_mas: 0,
+            if_applicable_gra: profile.if_applicable_gra || 0,
+            gra_exam: profile.gra_exam || "",
+            gra_institute: profile.gra_institute || "",
+            gra_subject: profile.gra_subject || "",
+            gra_result_type: profile.gra_result_type || "",
+            gra_result: profile.gra_result || 0,
+            gra_duration: profile.gra_duration || "",
+            gra_year: profile.gra_year || "",
+
+            if_applicable_mas: profile.if_applicable_mas || 0,
+            mas_exam: profile.mas_exam || "",
+            mas_institute: profile.mas_institute || "",
+            mas_subject: profile.mas_subject || "",
+            mas_result_type: profile.mas_result_type || "",
+            mas_result: profile.mas_result || 0,
+            mas_duration: profile.mas_duration || "",
+            mas_year: profile.mas_year || "",
         },
     });
     console.log("Education info Errors:", errors);
+
+    // Load previous values into form on mount
+    useEffect(() => {
+        if (profile.if_applicable_gra === 1) {
+            setIsBachelorApplicable(profile.if_applicable_gra === 1);
+        }
+        if (profile.if_applicable_mas === 1) {
+            setIsMastersApplicable(profile.if_applicable_mas === 1);
+        }
+        if (profile.if_applicable_gra || profile.if_applicable_mas) {
+            reset({
+                if_applicable_gra: profile.if_applicable_gra || 0,
+                gra_exam: profile.gra_exam || "",
+                gra_institute: profile.gra_institute || "",
+                gra_subject: profile.gra_subject || "",
+                gra_result_type: profile.gra_result_type || "",
+                gra_result: profile.gra_result || 0,
+                gra_duration: profile.gra_duration || "",
+                gra_year: profile.gra_year || "",
+
+                if_applicable_mas: profile.if_applicable_mas || 0,
+                mas_exam: profile.mas_exam || "",
+                mas_institute: profile.mas_institute || "",
+                mas_subject: profile.mas_subject || "",
+                mas_result_type: profile.mas_result_type || "",
+                mas_result: profile.mas_result || 0,
+                mas_duration: profile.mas_duration || "",
+                mas_year: profile.mas_year || "",
+            });
+        }
+    }, [profile, reset]);
 
     const onSubmit: SubmitHandler<EducationSchema> = async (data) => {
         console.log("Form data is:", data);
@@ -85,7 +133,7 @@ export function EducationPhase2Form({ onNext, onPrevious }: EducationPhase2FormP
         // Dispatch to Redux store
         dispatch(updateProfileStep(filteredData));
         // Proceed to next step
-        // onNext();
+        onNext();
     };
 
     return (

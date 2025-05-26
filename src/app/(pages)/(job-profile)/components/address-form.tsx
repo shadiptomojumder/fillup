@@ -16,10 +16,11 @@ import PresentAddressFields from "./present-address-form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { addressSchema } from "@/interfaces/jobProfile.schemas";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import PermanentAddressFields from "./permanent-address-form";
 import { updateProfileStep } from "@/lib/slices/profileSlice";
+import { RootState } from "@/lib/store";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import PermanentAddressFields from "./permanent-address-form";
 
 interface AddressFormProps {
     onPrevious: () => void;
@@ -29,6 +30,8 @@ type AddressSchema = z.infer<typeof addressSchema>;
 
 export function AddressForm({ onPrevious, isSaving }: AddressFormProps) {
     const dispatch = useDispatch();
+    const { profile } = useSelector((state: RootState) => state.profile);
+
     const [isSameAsPresent, setIsSameAsPresent] = useState(false);
     const {
         register,
@@ -37,12 +40,24 @@ export function AddressForm({ onPrevious, isSaving }: AddressFormProps) {
         setValue,
         formState: { errors },
         unregister,
-        clearErrors,
+        reset,
         watch,
     } = useForm<AddressSchema>({
         resolver: zodResolver(addressSchema),
         defaultValues: {
-            same_as_present: 0,
+            same_as_present: profile.same_as_present || 0,
+            present_careof: profile.present_careof || "",
+            present_village: profile.present_village || "",
+            present_district: profile.present_district || "",
+            present_upazila: profile.present_upazila || "",
+            present_post: profile.present_post || "",
+            present_postcode: profile.present_postcode || "",
+            permanent_careof: profile.permanent_careof || "",
+            permanent_village: profile.permanent_village || "",
+            permanent_district: profile.permanent_district || "",
+            permanent_upazila: profile.permanent_upazila || "",
+            permanent_post: profile.permanent_post || "",
+            permanent_postcode: profile.permanent_postcode || "",
         },
     });
     console.log("Education info Errors:", errors);
@@ -73,8 +88,35 @@ export function AddressForm({ onPrevious, isSaving }: AddressFormProps) {
         }
     }, [isSameAsPresent, presentAddressFields, setValue]);
 
+    // Load previous values into form on mount
+    useEffect(() => {
+        if (profile?.same_as_present === 1) {
+            setIsSameAsPresent(true);
+        }
+        if (profile?.present_careof || profile?.permanent_careof) {
+            reset({
+                same_as_present: profile.same_as_present || 1,
+                present_careof: profile.present_careof || "",
+                present_village: profile.present_village || "",
+                present_district: profile.present_district || "",
+                present_upazila: profile.present_upazila || "",
+                present_post: profile.present_post || "",
+                present_postcode: profile.present_postcode || "",
+                permanent_careof: profile.permanent_careof || "",
+                permanent_village: profile.permanent_village || "",
+                permanent_district: profile.permanent_district || "",
+                permanent_upazila: profile.permanent_upazila || "",
+                permanent_post: profile.permanent_post || "",
+                permanent_postcode: profile.permanent_postcode || "",
+            });
+        }
+    }, [profile, reset]);
+
     const onSubmit: SubmitHandler<AddressSchema> = async (data) => {
         console.log("Form data is:", data);
+
+        console.log("isSameAsPresent is:", isSameAsPresent);
+        
         // Dispatch to Redux store
         dispatch(updateProfileStep(data));
     };
